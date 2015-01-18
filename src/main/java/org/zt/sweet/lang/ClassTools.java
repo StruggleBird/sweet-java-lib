@@ -92,13 +92,13 @@ public class ClassTools {
         return null;
     }
     
-    private static ClassLoader nutClassLoader;
+    private static ClassLoader classLoader;
     static {
-        nutClassLoader = getClassLoader();
+        classLoader = getClassLoader();
         //当使用JavaSE是,如果Nutz通过bootClassLoader加载,那么就会为null
-        if (nutClassLoader == null)
+        if (classLoader == null)
             try {
-                nutClassLoader = ClassLoader.getSystemClassLoader();
+                classLoader = ClassLoader.getSystemClassLoader();
             }catch (Throwable e) {}
     }
     
@@ -106,11 +106,6 @@ public class ClassTools {
      * 获取nutz.jar的ClassLoader的方法
      */
     public static ClassLoader getClassLoader() {
-        return nutClassLoader;
-    }
-    
-    @Deprecated
-    public static void setNutClassLoader(ClassLoader nutClassLoader) {
-        ClassTools.nutClassLoader = nutClassLoader;
+        return classLoader;
     }
 }

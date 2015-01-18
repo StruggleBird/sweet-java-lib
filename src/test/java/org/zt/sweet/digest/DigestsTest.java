@@ -5,6 +5,7 @@ package org.zt.sweet.digest;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.zt.sweet.security.Digests;
 
 /**
  * @author Ternence
@@ -13,7 +14,7 @@ import org.junit.Test;
 public class DigestsTest {
 
 	/**
-	 * Test method for {@link org.zt.sweet.digest.Digests#md5Digest(byte[])}.
+	 * Test method for {@link org.zt.sweet.security.Digests#md5Digest(byte[])}.
 	 */
 	@Test
 	public void testMd5Digest() {
@@ -23,7 +24,7 @@ public class DigestsTest {
 
 	/**
 	 * Test method for
-	 * {@link org.zt.sweet.digest.Digests#md5DigestAsHex(byte[])}.
+	 * {@link org.zt.sweet.security.Digests#md5DigestAsHex(byte[])}.
 	 */
 	@Test
 	public void testMd5DigestAsHex() {
@@ -35,7 +36,7 @@ public class DigestsTest {
 
 	/**
 	 * Test method for
-	 * {@link org.zt.sweet.digest.Digests#appendMd5DigestAsHex(byte[], java.lang.StringBuilder)}
+	 * {@link org.zt.sweet.security.Digests#appendMd5DigestAsHex(byte[], java.lang.StringBuilder)}
 	 * .
 	 */
 	@Test
