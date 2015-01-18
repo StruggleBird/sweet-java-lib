@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +16,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.FalseFileFilter;
+import org.apache.commons.io.filefilter.IOFileFilter;
+import org.apache.commons.io.filefilter.SuffixFileFilter;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.zt.sweet.lang.ClassTools;
 import org.zt.sweet.lang.Encoding;
 import org.zt.sweet.lang.Lang;
@@ -493,6 +498,30 @@ public class Files {
 	}
 
 	/**
+	 * 
+	 * list all files and dirs recursive
+	 * 
+	 * @param file
+	 * @param regex
+	 * @param recursive
+	 * @return
+	 * @create 2015年1月18日
+	 */
+	public static File[] lsAll(File file, String regex, boolean recursive) {
+		File[] files = lsAll(file, regex);
+		List<File> fileList = Lang.list(files);
+		if (recursive) {
+			for (File f : files) {
+				if (f.isDirectory()) {
+					fileList.addAll(Lang.list(lsAll(f, regex, recursive)));
+				}
+			}
+		}
+
+		return fileList.toArray(new File[] {});
+	}
+
+	/**
 	 * 从 CLASSPATH 下或从指定的本机器路径下寻找一个文件
 	 * 
 	 * @param path
@@ -909,7 +938,7 @@ public class Files {
 	public static boolean isEquals(File f1, File f2) {
 		if (null == f1 || null == f2 || !f1.isFile() || !f2.isFile())
 			return false;
-		
+
 		try {
 			return FileUtils.contentEquals(f1, f2);
 		} catch (IOException e) {
@@ -1017,16 +1046,16 @@ public class Files {
 	}
 
 	public static List<String> readLines(File f) {
-		
+
 		return readLines(f, null);
 	}
-	
-	public static List<String> readLines(File f,String encoding) {
+
+	public static List<String> readLines(File f, String encoding) {
 		try {
 			if (Strings.isBlank(encoding)) {
 				encoding = Encoding.defaultEncoding();
 			}
-			return FileUtils.readLines(f,encoding);
+			return FileUtils.readLines(f, encoding);
 		} catch (IOException e) {
 			Lang.wrapThrow(e);
 		}

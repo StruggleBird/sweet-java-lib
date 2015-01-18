@@ -11,7 +11,7 @@ import org.apache.commons.lang.StringUtils;
 /**
  * 日期工具类
  * 
- * @author zenggg
+ * @author Ternence
  * @date 2014-2-27
  */
 public abstract class DateTimes {
