@@ -713,19 +713,6 @@ public abstract class Lang {
 		return coll;
 	}
 
-	private static <T extends Map<Object, Object>> Map<Object, Object> createMap(
-			Class<T> mapClass) {
-		Map<Object, Object> map;
-		try {
-			map = mapClass.newInstance();
-		} catch (Exception e) {
-			map = new HashMap<Object, Object>();
-		}
-		if (!mapClass.isAssignableFrom(map.getClass())) {
-			throw Lang.makeThrow("Fail to create map [%s]", mapClass.getName());
-		}
-		return map;
-	}
 
 	/**
 	 * 将数组转换成一个列表。

@@ -15,14 +15,14 @@ import com.alibaba.fastjson.JSONObject;
  * @author Zhoutao
  * @date 2014-7-10
  */
-public class BeanUtils {
+public class Beans {
 
 	protected static Log log;
 
 	/**
 	 * 
 	 */
-	public BeanUtils() {
+	public Beans() {
 		log = LogFactory.getLog(getClass());
 	}
 

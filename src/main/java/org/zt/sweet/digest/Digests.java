@@ -33,6 +33,7 @@ import java.security.NoSuchAlgorithmException;
 public abstract class Digests {
 
 	private static final String MD5_ALGORITHM_NAME = "MD5";
+	private static final String SHA1_ALGORITHM_NAME = "SHA1";
 
 	private static final char[] HEX_CHARS = { '0', '1', '2', '3', '4', '5',
 			'6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
@@ -48,6 +49,10 @@ public abstract class Digests {
 		return digest(MD5_ALGORITHM_NAME, bytes);
 	}
 
+	public static byte[] md5Digest(String text) {
+		return md5Digest(text.getBytes());
+	}
+
 	/**
 	 * Return a hexadecimal string representation of the MD5 digest of the given
 	 * bytes.
@@ -58,6 +63,10 @@ public abstract class Digests {
 	 */
 	public static String md5DigestAsHex(byte[] bytes) {
 		return digestAsHexString(MD5_ALGORITHM_NAME, bytes);
+	}
+	
+	public static String md5DigestAsHex(String text) {
+		return md5DigestAsHex(text.getBytes());
 	}
 
 	/**
