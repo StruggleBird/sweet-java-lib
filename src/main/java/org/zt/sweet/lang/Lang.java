@@ -10,12 +10,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -30,9 +27,6 @@ import java.util.regex.Pattern;
 /**
  * 这些帮助函数让 Java 的某些常用功能变得更简单
  * 
- * @author zozoh(zozohtnt@gmail.com)
- * @author wendal(wendal1985@gmail.com)
- * @author bonyfish(mc02cxj@gmail.com)
  */
 public abstract class Lang {
 
@@ -401,6 +395,11 @@ public abstract class Lang {
 		return set;
 	}
 
+	public static <K, V> Map<K, V> map(String text, K classK, V classV) {
+		throw makeThrow("Not implement!");
+		// return Maps.newMap(text,int.class,String.class);
+	}
+
 	/**
 	 * 将多个数组，合并成一个数组。如果这些数组为空，则返回 null
 	 * 
@@ -713,7 +712,6 @@ public abstract class Lang {
 		return coll;
 	}
 
-
 	/**
 	 * 将数组转换成一个列表。
 	 * 
@@ -1018,67 +1016,6 @@ public abstract class Lang {
 		}
 	}
 
-	/**
-	 * 获取指定字符串的 SHA1 值
-	 * 
-	 * @param cs
-	 *            字符串
-	 * @return 指定字符串的 SHA1 值
-	 * @see #digest(String, CharSequence)
-	 */
-	public static String sha1(CharSequence cs) {
-		return digest("SHA1", cs);
-	}
-
-	/**
-	 * 从字符串计算出数字签名
-	 * 
-	 * @param algorithm
-	 *            算法，比如 "SHA1" 或者 "MD5" 等
-	 * @param cs
-	 *            字符串
-	 * @return 数字签名
-	 */
-	public static String digest(String algorithm, CharSequence cs) {
-		return digest(algorithm, Strings.getBytesUTF8(null == cs ? "" : cs),
-				null, 1);
-	}
-
-	/**
-	 * 从字节数组计算出数字签名
-	 * 
-	 * @param algorithm
-	 *            算法，比如 "SHA1" 或者 "MD5" 等
-	 * @param bytes
-	 *            字节数组
-	 * @param salt
-	 *            随机字节数组
-	 * @param iterations
-	 *            迭代次数
-	 * @return 数字签名
-	 */
-	public static String digest(String algorithm, byte[] bytes, byte[] salt,
-			int iterations) {
-		try {
-			MessageDigest md = MessageDigest.getInstance(algorithm);
-
-			if (salt != null) {
-				md.update(salt);
-			}
-
-			byte[] hashBytes = md.digest(bytes);
-
-			for (int i = 1; i < iterations; i++) {
-				md.reset();
-				hashBytes = md.digest(hashBytes);
-			}
-
-			return fixedHexString(hashBytes);
-		} catch (NoSuchAlgorithmException e) {
-			throw Lang.wrapThrow(e);
-		}
-	}
-
 	/** 当前运行的 Java 虚拟机是否是在安卓环境 */
 	public static final boolean isAndroid;
 	static {
@@ -1115,16 +1052,6 @@ public abstract class Lang {
 	public static String simpleMetodDesc(Method method) {
 		return String.format("%s.%s(...)", method.getDeclaringClass()
 				.getSimpleName(), method.getName());
-	}
-
-	public static String fixedHexString(byte[] hashBytes) {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < hashBytes.length; i++) {
-			sb.append(Integer.toString((hashBytes[i] & 0xff) + 0x100, 16)
-					.substring(1));
-		}
-
-		return sb.toString();
 	}
 
 	/**

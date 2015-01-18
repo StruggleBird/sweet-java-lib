@@ -17,8 +17,8 @@ public class DigestsTest {
 	 */
 	@Test
 	public void testMd5Digest() {
-		Assert.assertTrue(Digests.md5Digest("abc".getBytes()) != null);
-		Assert.assertTrue(Digests.md5Digest("abc") != null);
+		Assert.assertTrue(Digests.md5("abc".getBytes()) != null);
+		Assert.assertTrue(Digests.md5("abc") != null);
 	}
 
 	/**
@@ -27,7 +27,9 @@ public class DigestsTest {
 	 */
 	@Test
 	public void testMd5DigestAsHex() {
-		String hexString = Digests.md5DigestAsHex("abc".getBytes());
+		String hexString = Digests.fixedHexString(Digests.md5("abc"));
+		Assert.assertEquals("900150983cd24fb0d6963f7d28e17f72", hexString);
+		hexString = Digests.md5AsHex("abc");
 		Assert.assertEquals("900150983cd24fb0d6963f7d28e17f72", hexString);
 	}
 

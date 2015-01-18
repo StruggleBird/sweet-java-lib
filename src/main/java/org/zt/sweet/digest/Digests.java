@@ -19,6 +19,9 @@ package org.zt.sweet.digest;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.zt.sweet.lang.Lang;
+import org.zt.sweet.lang.Strings;
+
 /**
  * Miscellaneous methods for calculating digests.
  * <p>
@@ -39,18 +42,30 @@ public abstract class Digests {
 			'6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
 	/**
+	 * 获取指定字符串的 SHA1 值
+	 * 
+	 * @param cs
+	 *            字符串
+	 * @return 指定字符串的 SHA1 值
+	 * @see #digest(String, CharSequence)
+	 */
+	public static String sha1(CharSequence cs) {
+		return digest(SHA1_ALGORITHM_NAME, cs);
+	}
+
+	/**
 	 * Calculate the MD5 digest of the given bytes.
 	 * 
 	 * @param bytes
 	 *            the bytes to calculate the digest over
 	 * @return the digest
 	 */
-	public static byte[] md5Digest(byte[] bytes) {
+	public static byte[] md5(byte[] bytes) {
 		return digest(MD5_ALGORITHM_NAME, bytes);
 	}
 
-	public static byte[] md5Digest(String text) {
-		return md5Digest(text.getBytes());
+	public static byte[] md5(String text) {
+		return md5(text.getBytes());
 	}
 
 	/**
@@ -61,12 +76,12 @@ public abstract class Digests {
 	 *            the bytes to calculate the digest over
 	 * @return a hexadecimal digest string
 	 */
-	public static String md5DigestAsHex(byte[] bytes) {
+	public static String md5AsHex(byte[] bytes) {
 		return digestAsHexString(MD5_ALGORITHM_NAME, bytes);
 	}
 	
-	public static String md5DigestAsHex(String text) {
-		return md5DigestAsHex(text.getBytes());
+	public static String md5AsHex(CharSequence text) {
+		return md5AsHex(text.toString().getBytes());
 	}
 
 	/**
@@ -82,6 +97,55 @@ public abstract class Digests {
 	public static StringBuilder appendMd5DigestAsHex(byte[] bytes,
 			StringBuilder builder) {
 		return appendDigestAsHex(MD5_ALGORITHM_NAME, bytes, builder);
+	}
+
+	/**
+	 * 从字符串计算出数字签名
+	 * 
+	 * @param algorithm
+	 *            算法，比如 "SHA1" 或者 "MD5" 等
+	 * @param cs
+	 *            字符串
+	 * @return 数字签名
+	 */
+	public static String digest(String algorithm, CharSequence cs) {
+		return digest(algorithm, Strings.getBytesUTF8(null == cs ? "" : cs),
+				null, 1);
+	}
+
+	/**
+	 * 从字节数组计算出数字签名
+	 * 
+	 * @param algorithm
+	 *            算法，比如 "SHA1" 或者 "MD5" 等
+	 * @param bytes
+	 *            字节数组
+	 * @param salt
+	 *            随机字节数组
+	 * @param iterations
+	 *            迭代次数
+	 * @return 数字签名
+	 */
+	public static String digest(String algorithm, byte[] bytes, byte[] salt,
+			int iterations) {
+		try {
+			MessageDigest md = MessageDigest.getInstance(algorithm);
+	
+			if (salt != null) {
+				md.update(salt);
+			}
+	
+			byte[] hashBytes = md.digest(bytes);
+	
+			for (int i = 1; i < iterations; i++) {
+				md.reset();
+				hashBytes = md.digest(hashBytes);
+			}
+	
+			return fixedHexString(hashBytes);
+		} catch (NoSuchAlgorithmException e) {
+			throw Lang.wrapThrow(e);
+		}
 	}
 
 	/**
@@ -126,6 +190,16 @@ public abstract class Digests {
 			chars[i + 1] = HEX_CHARS[b & 0xf];
 		}
 		return chars;
+	}
+	
+	public static String fixedHexString(byte[] hashBytes) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < hashBytes.length; i++) {
+			sb.append(Integer.toString((hashBytes[i] & 0xff) + 0x100, 16)
+					.substring(1));
+		}
+
+		return sb.toString();
 	}
 
 }

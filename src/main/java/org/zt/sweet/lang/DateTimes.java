@@ -1,4 +1,4 @@
-package org.zt.sweet.common;
+package org.zt.sweet.lang;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

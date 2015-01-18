@@ -203,7 +203,7 @@ public abstract class AbstractComparator<S, T> implements IComparator<S, T> {
 			logger.error("Error occur:", e);
 		}
 		String value = sb.toString();
-		return hash ? Digests.md5DigestAsHex(value.getBytes()) : value;
+		return hash ? Digests.md5AsHex(value.getBytes()) : value;
 	}
 
 	/**
