@@ -6,9 +6,9 @@ import java.util.Collection;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.slf4j.Logger;
-import org.zt.sweet.common.Assert;
 import org.zt.sweet.log.Logs;
 import org.zt.sweet.security.Digests;
+import org.zt.sweet.utils.Assert;
 
 /**
  * 比对器基类

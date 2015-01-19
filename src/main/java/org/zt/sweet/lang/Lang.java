@@ -54,6 +54,19 @@ public abstract class Lang {
 	public static RuntimeException impossible() {
 		return new RuntimeException("r u kidding me?! It is impossible!");
 	}
+	
+	/**
+	 * 生成运行时异常
+	 * 
+	 * @param format
+	 *            格式
+	 * @param args
+	 *            参数
+	 * @return 运行时异常
+	 */
+	public static RuntimeException makeThrow(String message) {
+		return new RuntimeException(message);
+	}
 
 	/**
 	 * 根据格式化字符串，生成运行时异常
