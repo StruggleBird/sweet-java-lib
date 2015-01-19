@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.zt.sweet.collection;
+package org.zt.sweet.lang;
 
 import java.util.Map;
 
