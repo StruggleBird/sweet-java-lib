@@ -125,4 +125,13 @@
 			</plugin>
 		</plugins>
 	</build>
+	<description>A java toolkit contains variety of java syntactic sugar and tools to facilitate application development.
+一个包含了各种java语法糖及工具类，方便程序开发的java工具包。</description>
+	<scm>
+		<url>https://github.com/StruggleBird/sweet-java-lib</url>
+		<developerConnection>Ternence</developerConnection>
+	</scm>
+	<issueManagement>
+		<url>https://github.com/StruggleBird/sweet-java-lib/issues</url>
+	</issueManagement>
 </project>
