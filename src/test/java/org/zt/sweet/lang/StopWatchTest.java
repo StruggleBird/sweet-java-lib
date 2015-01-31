@@ -12,12 +12,12 @@ import org.zt.sweet.utils.StopWatch;
  */
 public class StopWatchTest {
 
-	@Test
-	public void testA() {
-		StopWatch sw = StopWatch.begin();
-		Lang.sleep(1000);
-		sw.stop();
-		System.out.println(sw.taken());
-	}
+    @Test
+    public void testA() {
+        StopWatch sw = StopWatch.beginNano();
+        Lang.sleep(1000);
+//        sw.stop();
+        System.out.println(sw.getDuration());
+    }
 
 }

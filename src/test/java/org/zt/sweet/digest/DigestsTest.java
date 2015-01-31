@@ -7,7 +7,7 @@ import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.zt.sweet.security.Digests;
+import org.zt.sweet.algorithm.Digests;
 
 /**
  * @author Ternence
