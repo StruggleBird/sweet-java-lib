@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.zt.sweet.digest;
+package org.zt.sweet.algorithm;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

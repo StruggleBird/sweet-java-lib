@@ -485,6 +485,7 @@ public abstract class DateTimes {
 	}
 	
 	/**
+	 * 打印时间间隔 ，返回xx分钟，xx小时，xx天
      * Prints the duration in a human readable format as X days Y hours Z minutes etc.
      *
      * @param uptime the uptime in millis
