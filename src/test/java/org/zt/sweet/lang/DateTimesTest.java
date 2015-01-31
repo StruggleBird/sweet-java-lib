@@ -20,7 +20,7 @@ public class DateTimesTest {
 	public void testPrintDuration() {
 		System.out.println(new Date().getTime());
 		String res = DateTimes.printDuration(24*60*1000);
-		System.out.println(res); 
+		System.out.println(res);  
 	}
 
 }
