@@ -3,9 +3,11 @@
  */
 package org.zt.sweet.digest;
 
+import java.util.Date;
+
 import org.junit.Assert;
 import org.junit.Test;
-import org.zt.sweet.security.Digests;
+import org.zt.sweet.algorithm.Digests;
 
 /**
  * @author Ternence
@@ -19,6 +21,8 @@ public class DigestsTest {
 	@Test
 	public void testMd5Digest() {
 		Assert.assertTrue(Digests.md5("abc".getBytes()) != null);
+		System.out.println(Digests.md5AsHex("abc"));
+		System.out.println(Digests.md5AsHexTruncate(new Date().toString(),5));
 		Assert.assertTrue(Digests.md5("abc") != null);
 	}
 

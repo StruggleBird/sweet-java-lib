@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.zt.sweet.digest;
+package org.zt.sweet.algorithm;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -83,8 +83,16 @@ public abstract class Digests {
 	public static String md5AsHex(CharSequence text) {
 		return md5AsHex(text.toString().getBytes());
 	}
+	
+    public static String md5AsHexTruncate(String text, int length) {
+        if (length >= 32) {
+            return md5AsHex(text);
+        }else {
+            return md5AsHex(text).substring(0,length);
+        }
+    }
 
-	/**
+    /**
 	 * Append a hexadecimal string representation of the MD5 digest of the given
 	 * bytes to the given {@link StringBuilder}.
 	 * 
