@@ -636,6 +636,52 @@ public class Files {
 		return null != f && f.exists() && f.isFile();
 	}
 
+    /**
+     * 判断文件是否是图片
+     * 
+     * @param fileName
+     * @return
+     * @date 2015年2月5日
+     * @author Ternence
+     */
+    public static boolean isPicture(String fileName) {
+        return isPicture(fileName, null);
+    }
+
+    /**
+     * 判断文件是否是图片
+     * 
+     * @param fileName
+     * @param imageFlag 图片类型，如果不为空，则一并校验图片类型
+     * @return
+     * @throws Exception
+     * @date 2015年2月5日
+     * @author Ternence
+     */
+    public static boolean isPicture(String fileName, String imageFlag) {
+        // 文件名称为空的场合
+        if (Strings.isBlank(fileName)) {
+            // 返回不和合法
+            return false;
+        }
+        // 获得文件后缀名
+        String tmpName = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length());
+        // 声明图片后缀名数组
+        String imgeArray[][] = { {"bmp", "0"}, {"dib", "1"}, {"gif", "2"}, {"jfif", "3"}, {"jpe", "4"}, {"jpeg", "5"}, {"jpg", "6"}, {"png", "7"}, {"tif", "8"}, {"tiff", "9"}, {"ico", "10"}};
+        // 遍历名称数组
+        for (int i = 0; i < imgeArray.length; i++) {
+            // 判断单个类型文件的场合
+            if (!Strings.isBlank(imageFlag) && imgeArray[i][0].equals(tmpName.toLowerCase()) && imgeArray[i][0].equals(imageFlag)) {
+                return true;
+            }
+            // 判断符合全部类型的场合
+            if (Strings.isBlank(imageFlag) && imgeArray[i][0].equals(tmpName.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 	/**
 	 * 创建新文件，如果父目录不存在，也一并创建。可接受 null 参数
 	 * 

@@ -6,6 +6,7 @@ package org.zt.sweet.io;
 import java.io.File;
 
 import org.junit.Test;
+import org.zt.sweet.utils.Assert;
 
 /**
  * @author Ternence
@@ -24,5 +25,16 @@ public class FilesTest {
 		}
 
 	}
+
+    @Test
+    public void testIsPicture() {
+        Assert.isTrue(Files.isPicture("f:/aa/a.png"));
+        Assert.isTrue(Files.isPicture("a.jpg"));
+        Assert.isTrue(!Files.isPicture("a"));
+        Assert.isTrue(!Files.isPicture(""));
+
+        Assert.isTrue(Files.isPicture("a.png", "png"));
+        Assert.isTrue(!Files.isPicture("a.png", "jpg"));
+    }
 
 }
