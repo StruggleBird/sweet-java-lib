@@ -13,7 +13,7 @@ import org.junit.Test;
 public class StatUtilsTest {
     @Test
     public void testStat() throws InterruptedException{
-        Stat stat = StatUtils.start();
+        Stat stat = Stats.start();
         
         while (true) {
             Thread.sleep(1);

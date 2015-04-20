@@ -3,7 +3,7 @@ package org.zt.sweet.utils;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class StatUtils {
+public class Stats {
 
     public static Stat start() {
         final Stat stat = new Stat();

@@ -3,7 +3,7 @@ package org.zt.sweet.utils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegexUtils {
+public class Regexs {
 
 	/**
 	 * 验证Email
