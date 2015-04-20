@@ -16,8 +16,20 @@ public class StopWatchTest {
     public void testA() {
         StopWatch sw = StopWatch.beginNano();
         Lang.sleep(1000);
-//        sw.stop();
+        // sw.stop();
         System.out.println(sw.getDuration());
+    }
+
+    @Test
+    public void testFor() {
+        StopWatch sw = StopWatch.begin();
+        long sum = 0;
+        for (int i = 0; i < 1000000000; i++) {
+            sum += i;
+        }
+        sw.stop();
+        System.out.println("sum:" + sum);
+        System.out.println("Duration:" + sw.getDuration() + "ms");
     }
 
 }
