@@ -7,57 +7,45 @@ public class Stat {
 
     private Date startTime; // 开始时间
 
-    private AtomicLong total = new AtomicLong(0L); // 总数
+    private AtomicLong totalExec = new AtomicLong(0L); // 执行总数
 
-    private Long prevCount = 0L; // 上一秒的数量
+    private AtomicLong totalRT = new AtomicLong(0L); // 总响应时长
 
-    private Long perSecCount = 0L; // 每秒数量
 
-    private Long duration; // 开始后持续时间 ，秒
+    private long duration; // 开始后持续时间 ，秒
+
+    private long prevCount;// 上次统计的执行总数量
 
 
     public void begin() {
+        duration = prevCount = 0L;
+        totalExec.set(0);
+        totalRT.set(0);
+
         startTime = new Date();
-        duration = 0L;
+
     }
 
     public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public AtomicLong getTotalExec() {
+        return totalExec;
     }
 
-    public AtomicLong getTotal() {
-        return total;
+    public Long setTotalExec(AtomicLong count) {
+        this.totalExec = count;
+        return this.totalExec.longValue();
     }
 
-    public Long setTotal(AtomicLong count) {
-        this.total = count;
-        return this.total.longValue();
-    }
 
-    public Long getPrevCount() {
-        return prevCount;
-    }
-
-    public void setPrevCount(Long prevCount) {
-        this.prevCount = prevCount;
-    }
-
-    public Long getPerSecCount() {
-        return perSecCount;
-    }
-
-    public void setPerSecCount(Long perSecCount) {
-        this.perSecCount = perSecCount;
-    }
-
-    public Long getAvg() {
-        Date now = new Date();
-        Long totalSeconds = (now.getTime() - startTime.getTime()) / 1000;
-        return total.longValue() / totalSeconds;
+    public Long getAvgTPS() {
+        Long totalSeconds = (System.currentTimeMillis() - startTime.getTime()) / 1000;
+        if (totalSeconds <= 0) {
+            return 0L;
+        }
+        return totalExec.longValue() / totalSeconds;
     }
 
     /**
@@ -77,10 +65,26 @@ public class Stat {
     Long addAndGetDuration() {
         return this.duration++;
     }
-    
-    public Long addAndGet(int delta){
-        return this.total.addAndGet(delta);
+
+    public Long addAndGet(int delta) {
+        return this.totalExec.addAndGet(delta);
     }
 
+    public Long addAndGet(int delta, Long costTime) {
+        totalRT.addAndGet(costTime);
+        return this.totalExec.addAndGet(delta);
+    }
 
+    public Long getAvgRT() {
+        long avgRT = totalExec.get() == 0 ? 0 : totalRT.get() / totalExec.get();
+        return avgRT;
+    }
+
+    public void setPrevCount(long longValue) {
+        prevCount = longValue;
+    }
+
+    public long getPrevCount() {
+        return prevCount;
+    }
 }
