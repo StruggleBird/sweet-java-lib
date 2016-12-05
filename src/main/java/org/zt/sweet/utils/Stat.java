@@ -16,6 +16,8 @@ public class Stat {
 
     private long prevCount;// 上次统计的执行总数量
 
+    private AtomicLong errorCount = new AtomicLong(0);// 错误总数
+
 
     public void begin() {
         duration = prevCount = 0L;
@@ -87,4 +89,16 @@ public class Stat {
     public long getPrevCount() {
         return prevCount;
     }
+
+    /**
+     * @return the errorCount
+     */
+    public long getErrorCount() {
+        return errorCount.get();
+    }
+
+    public long addAndGetError(int num) {
+        return errorCount.addAndGet(num);
+    }
+
 }
