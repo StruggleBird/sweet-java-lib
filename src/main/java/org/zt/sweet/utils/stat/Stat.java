@@ -1,7 +1,5 @@
 package org.zt.sweet.utils.stat;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class Stat {
@@ -19,8 +17,6 @@ public class Stat {
 
     private AtomicLong errorCount = new AtomicLong(0);// 错误总数
 
-    private static ThreadLocal<Map<String, Object>> threadLocal = new ThreadLocal<Map<String, Object>>();
-
 
     public void begin() {
         duration = prevCount = 0L;
@@ -28,7 +24,6 @@ public class Stat {
         totalRT.set(0);
 
         startTime = System.currentTimeMillis();
-        threadLocal.set(new ConcurrentHashMap<String, Object>());
 
     }
 
@@ -73,14 +68,6 @@ public class Stat {
     }
 
     public Long addAndGet(int delta) {
-
-        Long startTime = (Long) threadLocal.get().get("startTime");
-        if (startTime != null) {
-            Long costTime = System.currentTimeMillis() - startTime;
-            totalRT.addAndGet(costTime);
-        }
-        threadLocal.get().put("startTime", System.currentTimeMillis());
-
         return this.totalExec.addAndGet(delta);
     }
 
@@ -102,6 +89,7 @@ public class Stat {
         return prevCount;
     }
 
+
     /**
      * @return the errorCount
      */
@@ -110,7 +98,8 @@ public class Stat {
     }
 
     public long addAndGetError(int num) {
-        return errorCount.addAndGet(num);
+        long errNum = errorCount.addAndGet(num);
+        return errNum;
     }
 
 }
