@@ -16,6 +16,11 @@ public class StatConfig {
      */
     private int threadNum;
 
+    /**
+     * 循环次数，0：永远（默认）
+     */
+    private long loop;
+
     public int getDuration() {
         return duration;
     }
@@ -38,6 +43,14 @@ public class StatConfig {
 
     public void setThreadNum(int threadNum) {
         this.threadNum = threadNum;
+    }
+
+    public long getLoop() {
+        return loop;
+    }
+
+    public void setLoop(long loop) {
+        this.loop = loop;
     }
 
 

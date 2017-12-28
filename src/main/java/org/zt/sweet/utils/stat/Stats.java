@@ -43,7 +43,7 @@ public class Stats {
      * @date 2016年11月11日
      * @author Ternence
      */
-    public static Stat start(final Runnable task, int threads) {
+    public static Holder start(final Runnable task, int threads) {
         
         
         return start(task, StatBuilder.builder().threads(threads).build());
@@ -59,7 +59,8 @@ public class Stats {
      * @date 2016年11月11日
      * @author Ternence
      */
-    public static Stat start(final Runnable task, StatConfig config) {
+    public static Holder start(final Runnable task,final StatConfig config) {
+        
         final int warmupTime = config.getWarmUp();
         final int threadnum = config.getThreadNum();
         final int duration = config.getDuration();
@@ -112,23 +113,26 @@ public class Stats {
 
                 @Override
                 public void run() {
-                    while(true){
+                    long loopTimes = 0;
+                    while (config.getLoop() <= 0 || loopTimes < config.getLoop()) {
                         long start = System.currentTimeMillis();
                         try {
                             task.run();
                         } catch (Throwable e) {
                             stat.addAndGetError(1);
+                        } finally {
+                            loopTimes++;
                         }
                         long costTime = System.currentTimeMillis() - start;
-                        stat.addAndGet(1,costTime);
+                        stat.addAndGet(1, costTime);
                     }
-                    
+
                 }
             });
         }
         
-
-        return stat;
+        
+        return new Holder(stat, executor);
     }
 
 }

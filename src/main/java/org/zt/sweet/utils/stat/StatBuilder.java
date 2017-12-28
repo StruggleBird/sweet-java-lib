@@ -32,6 +32,12 @@ public class StatBuilder {
             return this;
         }
 
+
+        public Builder loop(long loop) {
+            config.setLoop(loop);
+            return this;
+        }
+
         public StatConfig build() {
             return config;
         }
