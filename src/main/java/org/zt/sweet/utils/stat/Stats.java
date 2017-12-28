@@ -23,10 +23,10 @@ public class Stats {
                         e.printStackTrace();
                     }
 
-                    System.out.printf("Total:%7s,Current TPS:%7s,Avg TPS: %7s,Avg RT: %7sms,Duration: %7ss,Err num: %7s,Err percent: %4s \r\n",
+                    System.out.printf("Total:%7s,Current TPS:%7s,Avg TPS: %7s,Avg RT: %7sms,Duration: %7ss,Err num: %7s,Err percent: %4s%%\r\n",
                                     stat.getTotalExec(),
                                     stat.getTotalExec().get() - stat.getPrevCount(), stat.getAvgTPS(), stat.getAvgRT(), stat.getDuration(),
-                                    stat.getErrorCount(), String.format("%.2f", stat.getErrorCount() / (double) stat.getTotalExec().get()));
+                                    stat.getErrorCount(), String.format("%.2f", stat.getErrorCount() * 100 / (double) stat.getTotalExec().get()));
                 }
             }
         });
