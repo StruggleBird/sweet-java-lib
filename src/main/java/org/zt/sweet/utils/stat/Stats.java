@@ -2,7 +2,6 @@ package org.zt.sweet.utils.stat;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 
 
@@ -63,7 +62,6 @@ public class Stats {
         
         final int warmupTime = config.getWarmUp();
         final int threadnum = config.getThreadNum();
-        final int duration = config.getDuration();
 
 
         final Stat stat = Stats.start();
@@ -84,28 +82,6 @@ public class Stats {
             }).start();
         }
 
-
-        if (duration > 0) {
-            new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-                    try {
-                        Thread.sleep(duration * 1000);
-                        System.out.println("Shutdown all threads...........................................");
-                        executor.shutdownNow();
-                        boolean termination = executor.awaitTermination(5, TimeUnit.SECONDS);
-                        if (termination) {
-                            System.out.println("Termination all threads gracefully...........................................");
-                        } else {
-                            System.out.println("Force stop all threads...........................................");
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-        }
 
 
         for (int i = 0; i < threadnum; i++) {

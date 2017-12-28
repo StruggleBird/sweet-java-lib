@@ -1,10 +1,6 @@
 package org.zt.sweet.utils.stat;
 
 public class StatConfig {
-    /**
-     * 测试持续时长 ，秒
-     */
-    private int duration;
 
     /**
      * 预热时间，秒
@@ -21,13 +17,6 @@ public class StatConfig {
      */
     private long loop;
 
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
 
     public int getWarmUp() {
         return warmUp;

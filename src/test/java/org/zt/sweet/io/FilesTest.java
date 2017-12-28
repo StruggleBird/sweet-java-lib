@@ -16,7 +16,10 @@ public class FilesTest {
 
 	@Test
 	public void testLsAll() {
-		File d = new File("F:\\github\\sweet-java-lib\\trunk\\target");
+        File d = new File(".");
+        if (!d.exists()) {
+            return;
+        }
 		File[] files = Files.lsAll(d, ".*jar");
 
 		files = Files.lsAll(d, ".*", true);

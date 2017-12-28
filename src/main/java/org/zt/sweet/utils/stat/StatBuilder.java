@@ -22,11 +22,6 @@ public class StatBuilder {
         }
 
 
-        public Builder duration(int duration) {
-            config.setDuration(duration);
-            return this;
-        }
-
         public Builder warmup(int warmup) {
             config.setWarmUp(warmup);
             return this;
