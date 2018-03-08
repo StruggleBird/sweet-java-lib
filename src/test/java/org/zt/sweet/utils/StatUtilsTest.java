@@ -4,6 +4,7 @@
 package org.zt.sweet.utils;
 
 import java.io.IOException;
+import java.util.concurrent.Callable;
 
 import org.apache.commons.lang.math.RandomUtils;
 import org.junit.Test;
@@ -19,15 +20,16 @@ import org.zt.sweet.utils.stat.Stats;
 public class StatUtilsTest {
     @Test
     public void testStat() throws InterruptedException, IOException {
-        Stats.start(new Runnable() {
+        Stats.start(new Callable<Object>() {
 
             @Override
-            public void run() {
+            public Object call() {
                 try {
                     Thread.sleep(RandomUtils.nextInt(1000));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                return null;
             }
         }, StatBuilder.builder().threads(100).build());
         Thread.sleep(5000);;
@@ -37,18 +39,17 @@ public class StatUtilsTest {
 
     @Test
     public void testTermination() throws InterruptedException, IOException {
-        Holder holder = Stats.start(new Runnable() {
+        Holder holder = Stats.start(new Callable<Object>() {
+
 
             @Override
-            public void run() {
-                try {
-                    Thread.sleep(RandomUtils.nextInt(1000));
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            public Object call() throws Exception {
+                Thread.sleep(RandomUtils.nextInt(1000));
+                return null;
             }
         }, StatBuilder.builder().threads(100).build());
         holder.termination(5);
+        Thread.currentThread().join();
 
     }
 }

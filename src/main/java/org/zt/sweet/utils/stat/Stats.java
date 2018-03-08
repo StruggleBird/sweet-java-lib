@@ -1,5 +1,6 @@
 package org.zt.sweet.utils.stat;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -19,18 +20,19 @@ public class Stats {
                         stat.addAndGetDuration();
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        return;
                     }
 
                     System.out.printf("Total:%7s,Current TPS:%7s,Avg TPS: %7s,Avg RT: %7sms,Duration: %7ss,Err num: %7s,Err percent: %4s%%\r\n",
-                                    stat.getTotalExec(),
-                                    stat.getTotalExec().get() - stat.getPrevCount(), stat.getAvgTPS(), stat.getAvgRT(), stat.getDuration(),
-                                    stat.getErrorCount(), String.format("%.2f", stat.getErrorCount() * 100 / (double) stat.getTotalExec().get()));
+                                    stat.getTotalExec(), stat.getTotalExec().get() - stat.getPrevCount(), stat.getAvgTPS(), stat.getAvgRT(),
+                                    stat.getDuration(), stat.getErrorCount(),
+                                    String.format("%.2f", stat.getErrorCount() * 100 / (double) stat.getTotalExec().get()));
                 }
             }
         });
 
         t.start();
+        stat.setStatThread(t);
         return stat;
     }
 
@@ -42,12 +44,12 @@ public class Stats {
      * @date 2016年11月11日
      * @author Ternence
      */
-    public static Holder start(final Runnable task, int threads) {
-        
-        
+    public static Holder start(final Callable<?> task, int threads) {
+
+
         return start(task, StatBuilder.builder().threads(threads).build());
     }
-    
+
     /**
      *
      * @param task 任务方法
@@ -58,17 +60,17 @@ public class Stats {
      * @date 2016年11月11日
      * @author Ternence
      */
-    public static Holder start(final Runnable task,final StatConfig config) {
-        
+    public static Holder start(final Callable<?> task, final StatConfig config) {
+
         final int warmupTime = config.getWarmUp();
         final int threadnum = config.getThreadNum();
 
 
         final Stat stat = Stats.start();
         final ExecutorService executor = Executors.newFixedThreadPool(threadnum);
-        if (warmupTime > 0 ) {
+        if (warmupTime > 0) {
             new Thread(new Runnable() {
-                
+
                 @Override
                 public void run() {
                     try {
@@ -90,10 +92,14 @@ public class Stats {
                 @Override
                 public void run() {
                     long loopTimes = 0;
-                    while (config.getLoop() <= 0 || loopTimes < config.getLoop()) {
+                    while (!Thread.interrupted() && (config.getLoop() <= 0 || loopTimes < config.getLoop())) {
                         long start = System.currentTimeMillis();
                         try {
-                            task.run();
+                            task.call();
+                            Thread.sleep(1);
+                        } catch (InterruptedException e) {
+                            // 线程被中断 返回
+                            return;
                         } catch (Throwable e) {
                             stat.addAndGetError(1);
                         } finally {
@@ -106,8 +112,8 @@ public class Stats {
                 }
             });
         }
-        
-        
+
+
         return new Holder(stat, executor);
     }
 

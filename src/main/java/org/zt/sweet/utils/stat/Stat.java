@@ -17,6 +17,8 @@ public class Stat {
 
     private AtomicLong errorCount = new AtomicLong(0);// 错误总数
 
+    private Thread statThread;// 统计线程
+
 
     public void begin() {
         duration = prevCount = 0L;
@@ -101,5 +103,15 @@ public class Stat {
         long errNum = errorCount.addAndGet(num);
         return errNum;
     }
+
+    public Thread getStatThread() {
+        return statThread;
+    }
+
+    public void setStatThread(Thread statThread) {
+        this.statThread = statThread;
+    }
+
+
 
 }
