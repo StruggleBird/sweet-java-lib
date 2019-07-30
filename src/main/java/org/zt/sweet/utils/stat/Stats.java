@@ -96,7 +96,6 @@ public class Stats {
                         long start = System.currentTimeMillis();
                         try {
                             task.call();
-                            Thread.sleep(1);
                         } catch (InterruptedException e) {
                             // 线程被中断 返回
                             return;
